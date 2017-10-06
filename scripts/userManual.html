@@ -1,0 +1,74 @@
+<html>
+
+<head></head>
+
+<body>
+    <div>
+        <h3> Lets make sure you can use PHP</h3>
+        1) Go to computer desktop manu, search and click for "xampp"
+        <br/><br/> 2) In the first line where it says "Apache" click "start"
+        <br/><br/> 3) On the right of the xampp window find and click the Explorer button
+        <br/><br/>4) Find a folder called "htdocs" and place your entire directory "webcat" in htdocs
+        <br/><br/> 5) once the directory is in "htdocs" open google chrome and type in "http://localhost/WEBCAT/shared/scripts/userManual.html"
+        <br/><br/> 6) Now you are set to use the "PHP CREAT DATA BASE and APPEND LINKS"
+        <br/><br/> ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+        <h1>CREAT DATA BASE and APPEND LINKS </h1>
+        <br/><br/>
+    </div>
+    <h3>Create "page" Data Base and add a link to the catalogs "home.htm"</h3><br/><br/>
+
+    <button name="pageDB" onclick="ajax(this)">Creat page Data Base</button>(This will only creat the Data Base NOT A LINK)
+    <br/><br/><br/>
+    <h4>In order to add a link to home page insert catalog number and full path</h4>
+    Catalog number<input id="catalogName" value="Number example: 5000"></input>
+    Catalog path<input id="catalogPath" value="Path example: '5000\CA273-00490 - Parts Catalog 5000_files'"><button name="addLink" onclick="ajax(this)">Creat link on "home.htm"</button>
+
+    <br/><br/><br/><br/><br/> ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- <br/><br/><br/><br/>
+
+    <h3>Create catalog Data Base and add a link to the catalogs "home.htm"</h3>
+    <h4>Please insert catalog number and full path in the inputs obove("Page db section")</h4>
+    <br/><br/>
+    <button name="catalogDB" onclick="ajax(this)">Creat catalog Data Base</button>(This will also add the db link to the "home.htm" page)
+
+    <br/><br/><br/><br/><br/>
+    <div id=ajax></div>
+    <br/><br/><br/><br/>
+    <script>
+        function ajax(a) {
+
+            var action = a.getAttribute('name')
+
+            if (document.getElementById("catalogPath")) {
+                var catalogPath = document.getElementById("catalogPath").value
+            }
+            if (document.getElementById("catalogName")) {
+                var catalogName = document.getElementById("catalogName").value
+            }
+
+
+            var data = new FormData()
+            data.append("action", action);
+            data.append("catalogPath", catalogPath);
+            data.append("catalogName", catalogName);
+
+
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    document.getElementById("ajax").innerHTML = this.responseText;
+                }
+            };
+
+            xhttp.open("POST", "createDB.php", true);
+            xhttp.send(data);
+        }
+
+        function open(link) {
+            window.open(link, '_blank')
+        }
+    </script>
+</body>
+
+
+
+</html>
