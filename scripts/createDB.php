@@ -1,6 +1,6 @@
 <?php
 session_start();
-//error_reporting(0); //stop error report
+error_reporting(0); //stop error report
 require_once "addPageDataLink.php";
 require_once "catalogDB.php";
 require_once "pageDB.php";
