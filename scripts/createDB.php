@@ -1,10 +1,10 @@
 <?php
-error_reporting(0); //stop error report
+//error_reporting(0); //stop error report
  $links3=["a"];
  $action = $_POST["action"];
  $catalogName = $_POST["catalogName"];
  $catalogPath = $_POST["catalogPath"];
- $catalogPath = "..\..\\" . $catalogPath;
+ $catalogPath = "..\\..\\" . $catalogPath;
 
 if($action === "pageDB")
 {
@@ -15,8 +15,18 @@ if($action === "pageDB")
 
     foreach (new RecursiveIteratorIterator($di) as $filename => $file) 
     {   
-        if(file_get_contents($filename)!= false)
+        if($filename != false && $filename != "..\..\page\." && $filename != "..\..\page\.." )
         {
+        //     $replace = file_get_contents($filename);
+        //     $replace = str_replace("<script src='../shared/scripts/highlight.js'></script>", '', $replace);
+        //     file_put_contents($filename, $replace);  
+        
+        //    file_put_contents($filename,"<script src='../shared/scripts/highlight.js'></script>",FILE_APPEND);
+
+        //    $replace = file_get_contents($filename);
+        //    $replace = str_replace("<body>", "<body onload='highlight()'>", $replace);
+        //    file_put_contents($filename, $replace);  
+    
             $title2=[];
             $table2=[];
             $html = file_get_contents($filename);
@@ -68,7 +78,7 @@ if($action === "catalogDB")
     $di = new RecursiveDirectoryIterator($catalogPath);
     foreach (new RecursiveIteratorIterator($di) as $filename => $file)
     {
-        if(file_get_contents($filename)!="" && file_get_contents($filename)!= "."&&file_get_contents($filename)!=".")
+        if($filename != false && $filename != "..\..\page\." && $filename != "..\..\page\.." )
         {
             $html = file_get_contents($filename);
             
@@ -95,10 +105,10 @@ if($action === "catalogDB")
             fwrite($handle, $links3);
             
                 $replace = file_get_contents($catalogPath . "\\home.htm");
-                $replace = str_replace("<script src=..\..\shared\scripts\\"   . $catalogName . ".js></script>", '', $replace);
+                $replace = str_replace("<script src=..\shared\scripts\\"   . $catalogName . ".js></script>", '', $replace);
                 file_put_contents($catalogPath . "\\home.htm", $replace);  
             
-            file_put_contents($catalogPath . "\\home.htm","<script src=..\..\shared\scripts\\"   . $catalogName . ".js></script>",FILE_APPEND);
+            file_put_contents($catalogPath . "\\home.htm","<script src=..\shared\scripts\\"   . $catalogName . ".js></script>",FILE_APPEND);
             
         } 
         else{
@@ -107,10 +117,10 @@ if($action === "catalogDB")
             fwrite($handle, $links3);
             
                 $replace = file_get_contents($catalogPath . "\\home.htm");
-                $replace = str_replace("<script src=..\..\shared\scripts\\"   . $catalogName . ".js></script>", '', $replace);
+                $replace = str_replace("<script src=..\shared\scripts\\"   . $catalogName . ".js></script>", '', $replace);
                 file_put_contents($catalogPath . "\\home.htm", $replace);  
             
-            file_put_contents($catalogPath . "\\home.htm","<script src=..\..\shared\scripts\\"   . $catalogName . ".js></script>",FILE_APPEND);
+            file_put_contents($catalogPath . "\\home.htm","<script src=..\shared\scripts\\"   . $catalogName . ".js></script>",FILE_APPEND);
         }    
         echo "Catalog data was created and a link was attached";         
 }
@@ -118,13 +128,36 @@ if($action === "catalogDB")
 if($action === "addLink")
 {
     $replace = file_get_contents($catalogPath . "\\home.htm");
-    $replace = str_replace("<script src=..\..\shared\scripts\pageData.js></script>", '', $replace);
+    $replace = str_replace("<script src=..\shared\scripts\pageData.js></script>", '', $replace);
     file_put_contents($catalogPath . "\\home.htm", $replace);  
 
-    file_put_contents($catalogPath . "\\home.htm","<script src=..\..\shared\scripts\pageData.js></script>",FILE_APPEND);
+    file_put_contents($catalogPath . "\\home.htm","<script src=..\shared\scripts\pageData.js></script>",FILE_APPEND);
     echo " A link was attached to 'home.htm'";
 }
 
+if($action === "highlight")
+{
+ 
+    $directory = '..\..\page';
+    $myArray=array();
+    
+    $di = new RecursiveDirectoryIterator($directory);
 
+    foreach (new RecursiveIteratorIterator($di) as $filename => $file) 
+    {   
+        if($filename != false && $filename != "..\..\page\." && $filename != "..\..\page\.." )
+        {
+            $replace = file_get_contents($filename);
+            $replace = str_replace("<script src='../shared/scripts/highlight.js'></script>", '', $replace);
+            file_put_contents($filename, $replace);  
+        
+           file_put_contents($filename,"<script src='../shared/scripts/highlight.js'></script>",FILE_APPEND);
 
+           $replace = file_get_contents($filename);
+           $replace = str_replace("<body>", "<body onload='highlight()'>", $replace);
+           file_put_contents($filename, $replace);  
+        }
+    }
+  
+}
 ?>
